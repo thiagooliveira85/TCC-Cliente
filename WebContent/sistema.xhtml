@@ -32,9 +32,9 @@
 		<h:form id="form1" prependId="false">
 		
 	<p:panel header="Vagas On Line" style="width:25%">
-			<h:panelGrid columns="3" rendered="#{not empty usuarioBean.profile}">
-				<p:graphicImage value="#{usuarioBean.profile.profileImageURL}" 	styleClass="media-object" />
-		<h3 class="media-heading" style="margin-left: 10px;">#{usuarioBean.profile.fullName}</h3>
+			<h:panelGrid columns="3" rendered="#{not empty facebookAPI.profile}">
+				<p:graphicImage value="#{facebookAPI.profile.profileImageURL}" 	styleClass="media-object" />
+		<h3 class="media-heading" style="margin-left: 10px;">#{facebookAPI.profile.fullName}</h3>
 			</h:panelGrid>
 			<p:growl/>
 	</p:panel>

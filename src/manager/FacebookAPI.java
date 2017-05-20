@@ -21,7 +21,7 @@ import org.primefaces.context.RequestContext;
 
 @Named
 @SessionScoped
-public class UsuarioBean implements Serializable {
+public class FacebookAPI implements Serializable {
 
 
 	private static final long serialVersionUID = 3658300628580536494L;

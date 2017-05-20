@@ -74,14 +74,14 @@
 							<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 							<fieldset>
 								<div class="form-group">
-									<p:inputText id="username" value="#{usuarioBean.username}" styleClass="form-control" required="true" label="username" />
+									<p:inputText id="username" value="#{facebookAPI.username}" styleClass="form-control" required="true" label="username" />
 									<p:watermark for="username" value="Login" id="place" />
 								</div>
 								<div class="form-group">
-									<p:password id="password" value="#{usuarioBean.password}"  styleClass="form-control" required="true" label="password" title="Senha" />
+									<p:password id="password" value="#{facebookAPI.password}"  styleClass="form-control" required="true" label="password" title="Senha" />
 									<p:watermark for="password" value="Senha" id="place2" />
 								</div>
-								<h:commandLink action="#{usuarioBean.conectar}"
+								<h:commandLink action="#{facebookAPI.conectar}"
 									styleClass="btn btn-lg btn-success btn-block"
 									value="Login" />
 								<h:commandLink />
@@ -93,7 +93,7 @@
 							<h4>OR</h4>
 						</center>
 							<p:remoteCommand name="passou" process="@this" actionListener="#{mb.setLocalizacaoAtual}" />
-							<h:commandLink action="#{usuarioBean.conectarFacebook}"
+							<h:commandLink action="#{facebookAPI.conectarFacebook}"
 								styleClass="btn btn-lg btn-facebook btn-block"
 								value="Login com Facebook" />
 							<h:commandLink />
