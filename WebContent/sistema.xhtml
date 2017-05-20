@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<script type="text/javascript">
+		function geocode(){
+			var logradouro = document.getElementById('logradouro').value;
+			var bairro = document.getElementById('bairro').value;
+			var cidade = document.getElementById('cidade').value;
+			var uf = document.getElementById('uf').value;
+			var address = logradouro.concat(', ').concat(bairro).
+				concat(', ').concat(cidade).concat(', ').concat(uf);
+			PF('geoMap').geocode(address);
+			PF('dlEmpresa').show();
+		}
+	</script>
+	
+	<script type="text/javascript"
+		src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;key=AIzaSyB_meePMsRkwT59CpQygGg14wQ0eJXC5q8"></script>
+		
+</h:head>
+
+
+<h:body>
+
+		<h:form id="form1" prependId="false">
+		
+	<p:panel header="Vagas On Line" style="width:25%">
+			<h:panelGrid columns="3" rendered="#{not empty usuarioBean.profile}">
+				<p:graphicImage value="#{usuarioBean.profile.profileImageURL}" 	styleClass="media-object" />
+		<h3 class="media-heading" style="margin-left: 10px;">#{usuarioBean.profile.fullName}</h3>
+			</h:panelGrid>
+			<p:growl/>
+	</p:panel>
+	<br/>
+	<p:separator/>
+	<br/><br/>
+		<p:gmap id="geoMap" widgetVar="geoMap" center="#{mb.centerGeoMap}"  style="width:100%;height:500px" 
+			type="TERRAIN" model="#{mb.simpleModel}" zoom="16">
+			<p:ajax event="geocode" listener="#{mb.onGeoCode}" 
+			 update="@this"/>
+			 
+			<p:ajax event="overlaySelect" listener="#{mb.onMarkerSelect}"/>
+
+			<p:gmapInfoWindow id="infoWindow">
+				<p:outputPanel	style="text-align: center; display: block; margin: auto">
+					<h:outputText value="#{mb.marker.title}" />
+				</p:outputPanel>
+			</p:gmapInfoWindow>
+
+		</p:gmap>
+
+	<p:dialog widgetVar="dlEmpresa" closable="false" resizable="false">
+		<h:panelGrid columns="2">
+			<p:outputLabel value="Razao Social: "/>
+			<p:inputText value="#{mb.empresa.razaoSocial}"/>
+			
+		</h:panelGrid>
+		<p:commandButton value="Cadastrar Empresa" action="#{mb.cadastrar}" 
+			update="form1" onclick="dlEmpresa.hide()"/>
+	</p:dialog>
+
+	</h:form>
+
+</h:body>
+
+</html>
