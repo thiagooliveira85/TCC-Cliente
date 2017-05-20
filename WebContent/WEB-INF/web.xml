@@ -8,7 +8,7 @@
   </context-param>
   
   <welcome-file-list>
-  	<welcome-file>loginFace.jsf</welcome-file>
+  	<welcome-file>loginRedesSociais.jsf</welcome-file>
   </welcome-file-list>
   
   <servlet>

@@ -6,6 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+	
 	<f:facet name="first">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<!-- Meta, title, CSS, favicons, etc. -->
@@ -14,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</f:facet>
 
-	<title>Vagas On Line</title>
+	<title>Estacionamento On Line</title>
 
 	<h:outputStylesheet library="css" name="bootstrap.min.css" />
 	<h:outputStylesheet library="css" name="form.css" />
@@ -47,15 +48,6 @@
 	          	} ]);
 		  }
 	
-		  function handleLoginRequest(xhr, status, args) {
-		        if(args.validationFailed || !args.loggedIn) {
-		            PF('dlg').jq.effect("shake", {times:5}, 100);
-		        }
-		        else {
-		            PF('dlg').hide();
-		            $('#loginLink').fadeOut();
-		        }
-		  }
 	</script>
 
 </h:head>

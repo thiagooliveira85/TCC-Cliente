@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	
+	<f:facet name="first">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</f:facet>
+
+	<title>Estacionamento On Line</title>
+
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="redesSociais.css" />
+	<h:outputScript target="body" library="js" name="bootstrap.mn.js" />
+	
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet" />
+	
+	<script type="text/javascript">
+
+	 	 navigator.geolocation.getCurrentPosition(locationSuccess, locationFail); 
+		 function locationSuccess(position) {
+				 latitude = position.coords.latitude;
+				 longitude = position.coords.longitude;
+				 passou([ {
+	                 name : 'lat',
+	                 value : latitude
+	          	}, {
+	                 name : 'long',
+	                 value : longitude          
+	          	} ]);
+		  }
+	
+		  function locationFail() {
+				var msg = 'Não foi possível resgatar a localização'; 
+				alert(msg);
+				passou([ {
+	                 name : 'lat',
+	                 value : ''
+	          	}, {
+	                 name : 'long',
+	                 value : ''          
+	          	} ]);
+		  }
+	
+	</script>
+</h:head>
+
+<h:body>
+
+	<div class="container">
+
+
+		<div class="container text-center">
+			<h:form class="form-signin" >
+				<p:remoteCommand name="passou" process="@this" actionListener="#{mb.setLocalizacaoAtual}" />
+				<p:remoteCommand name="rc" process="@this" actionListener="#{facebookAPI.conectarFacebook}" />
+				
+				<small class="text-muted">Acesse com sua rede social</small>
+				<p />
+				
+				<p>
+					<a class="btn btn-primary social-login-btn social-facebook" href="#" onclick="rc();"><i class="fa fa-facebook"></i></a> 
+					<a class="btn btn-primary social-login-btn social-twitter" href="#"><i	class="fa fa-twitter"></i></a>
+				</p>
+				
+				<p>
+					<a class="btn btn-primary social-login-btn social-linkedin"	href="#"><i class="fa fa-linkedin"></i></a> 
+					<a class="btn btn-primary social-login-btn social-google" href="#"><i class="fa fa-google-plus"></i></a>
+				</p>
+
+				<div class="btn-group social-login-more">
+					<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">Mais...</button>
+				</div>
+				
+			</h:form>
+		</div>
+	</div>
+
+</h:body>
+</html>
