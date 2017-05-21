@@ -94,7 +94,6 @@ public class EstacionamentoBean implements Serializable {
 		return avaliacao;
 	}
 	public void setAvaliacao(Integer avaliacao) {
-		System.out.println("Avaliação realizada: " + avaliacao + " para o estacionamento " + nomeFantasia);
 		setAvaliou(true);
 		this.avaliacao = avaliacao;
 	}

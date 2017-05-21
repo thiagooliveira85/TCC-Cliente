@@ -1,6 +1,8 @@
 package manager;
 
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -32,17 +34,31 @@ public class FacebookAPI implements Serializable {
 	private SocialAuthManager socialManager;
 	private Profile profile;
 
-	private final String mainURL 		= "http://192.168.1.103:9091/EstacionamentoOnlineEntradaCliente/sistema.jsf";
-	private final String redirectURL 	= "http://192.168.1.103:9091/EstacionamentoOnlineEntradaCliente/redirectHome.jsf";
+	private String mainURL 		= "http://[IP]:9091/EstacionamentoOnlineEntradaCliente/sistema.jsf";
+	private String redirectURL 	= "http://[IP]:9091/EstacionamentoOnlineEntradaCliente/redirectHome.jsf";
 	//private final String mainURL 		= "http://localhost:9091/EstacionamentoOnlineEntradaCliente/sistema.jsf";
 	//private final String redirectURL 	= "http://localhost:9091/EstacionamentoOnlineEntradaCliente/redirectHome.jsf";
 	private final String provider 		= "facebook";
+	
+	public FacebookAPI() {
+		String hostAddress = buscaIPMaquina();
+		mainURL = mainURL.replace("[IP]", hostAddress);
+		redirectURL = redirectURL.replace("[IP]", hostAddress);
+	}
 
 	public void conectarFacebook() {
 		Properties prop = System.getProperties();
 		prop.put("graph.facebook.com.consumer_key", "1683062935316658");
 		prop.put("graph.facebook.com.consumer_secret", "fd3969376367f68db05c00462e6370c7");
 		prop.put("graph.facebook.com.custom_permissions", "public_profile, email, user_birthday");
+		
+		
+		try {
+			String hostAddress = InetAddress.getLocalHost().getHostAddress();
+			System.out.println("IP DA MAQUINA: " + hostAddress);
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
 
 		SocialAuthConfig socialConfig = SocialAuthConfig.getDefault();
 		try {
@@ -89,6 +105,21 @@ public class FacebookAPI implements Serializable {
         context.addCallbackParam("loggedIn", loggedIn);
         
         return null;
+	}
+	
+	private String buscaIPMaquina() {
+		String hostAddress = "";
+		try {
+			hostAddress = InetAddress.getLocalHost().getHostAddress();
+			int i = 0;
+			while(i < 50){
+				System.out.println("NÃO ESQUECER DE SETAR O IP DA MAQUINA NO FACEBOOK: " + hostAddress);
+				i++;
+			}
+		} catch (UnknownHostException e1) {
+			throw new RuntimeException(e1);
+		}
+		return hostAddress;
 	}
 
 	public Profile getProfile() {
