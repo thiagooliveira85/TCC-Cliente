@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -19,7 +17,6 @@ import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
 import org.brickred.socialauth.util.SocialAuthUtil;
-import org.primefaces.context.RequestContext;
 
 @Named
 @SessionScoped
@@ -51,14 +48,6 @@ public class FacebookAPI implements Serializable {
 		prop.put("graph.facebook.com.consumer_key", "1683062935316658");
 		prop.put("graph.facebook.com.consumer_secret", "fd3969376367f68db05c00462e6370c7");
 		prop.put("graph.facebook.com.custom_permissions", "public_profile, email, user_birthday");
-		
-		
-		try {
-			String hostAddress = InetAddress.getLocalHost().getHostAddress();
-			System.out.println("IP DA MAQUINA: " + hostAddress);
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		}
 
 		SocialAuthConfig socialConfig = SocialAuthConfig.getDefault();
 		try {
@@ -82,29 +71,8 @@ public class FacebookAPI implements Serializable {
 			AuthProvider provider = socialManager.connect(parametros);
 			this.setProfile(provider.getUserProfile());
 		}
-
-		FacesContext.getCurrentInstance().getExternalContext().redirect(mainURL);
-	}
-	
-	public String conectar() {
 		
-		RequestContext context = RequestContext.getCurrentInstance();
-        FacesMessage message = null;
-        boolean loggedIn = false;
-         
-        if(username != null && username.equals("admin") && password != null && password.equals("admin")) {
-            loggedIn = true;
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bem vindo", username);
-            return "/sistema.xhtml";
-        } else {
-            loggedIn = false;
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção", "Login ou senha inválidos");
-        }
-        
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        context.addCallbackParam("loggedIn", loggedIn);
-        
-        return null;
+		FacesContext.getCurrentInstance().getExternalContext().redirect(mainURL);
 	}
 	
 	private String buscaIPMaquina() {
