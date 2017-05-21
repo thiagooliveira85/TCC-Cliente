@@ -10,11 +10,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.RateEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
+
 import dao.EstacionamentoDAO;
 import bean.Coordenadas;
 import bean.EstacionamentoBean;
@@ -27,6 +29,7 @@ public class ManagerBean implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private EstacionamentoBean estacionamento;
 	
 	private List<EstacionamentoBean> lstEstacionamento;
@@ -40,7 +43,6 @@ public class ManagerBean implements Serializable{
 	
 	@PostConstruct
 	public void init() {
-		setEstacionamento(new EstacionamentoBean());
 		geoModel 			= new DefaultMapModel();
 		lstEstacionamento 	= new EstacionamentoDAO().buscaTodos();
 		carregarEnderecosMapa();
@@ -53,7 +55,7 @@ public class ManagerBean implements Serializable{
 		simpleModel = new DefaultMapModel();		
 		for(EstacionamentoBean estacionamento : lstEstacionamento){
 			LatLng latLng = estacionamento.getEnderecoBean().getCoordenadas().getLatLng();
-			simpleModel.addOverlay(new Marker(latLng, estacionamento.getNomeFantasia()));
+			simpleModel.addOverlay(new Marker(latLng, estacionamento.getNomeFantasia(), estacionamento));
 		}
 	}
 
@@ -82,8 +84,14 @@ public class ManagerBean implements Serializable{
 
         coord = coordenadas.getLatLng();
         centerGeoMap = coordenadas.toString();
-		simpleModel.addOverlay(new Marker(coord, "Você está aqui!", "", "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png"));
+		//simpleModel.addOverlay(new Marker(coord, "Você está aqui!", "", "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png"));
+		simpleModel.addOverlay(new Marker(coord, "Você está aqui!", estacionamento));
 	}
+	
+	public void onrate(RateEvent rateEvent) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Obrigado pela avaliação!");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 	public MapModel getSimpleModel() {
 		return simpleModel;
@@ -117,13 +125,12 @@ public class ManagerBean implements Serializable{
 		this.geoModel = geoModel;
 	}
 
-	public EstacionamentoBean getEstacionamento() {
-		return estacionamento;
+	public List<EstacionamentoBean> getLstEstacionamento() {
+		return lstEstacionamento;
 	}
 
-	public void setEstacionamento(EstacionamentoBean estacionamento) {
-		this.estacionamento = estacionamento;
+	public void setLstEstacionamento(List<EstacionamentoBean> lstEstacionamento) {
+		this.lstEstacionamento = lstEstacionamento;
 	}
-
 	
 }

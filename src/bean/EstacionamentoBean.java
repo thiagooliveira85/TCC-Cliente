@@ -15,23 +15,20 @@ public class EstacionamentoBean implements Serializable {
 	private String inscricaoEstadual;
 	private StatusBean statusBean;
 	private EnderecoBean enderecoBean;
-	
+	private Integer avaliacao;
 	private int quantidadeFuncionarios;
-	private int quantidadeVagas;
 	
 	private List<TipoPagamento> tiposPagamentos;
+	
+	private List<Vagas> vagas;
+	
+	private boolean avaliou;
 	
 	public int getQuantidadeFuncionarios() {
 		return quantidadeFuncionarios;
 	}
 	public void setQuantidadeFuncionarios(int quantidadeFuncionarios) {
 		this.quantidadeFuncionarios = quantidadeFuncionarios;
-	}
-	public int getQuantidadeVagas() {
-		return quantidadeVagas;
-	}
-	public void setQuantidadeVagas(int quantidadeVagas) {
-		this.quantidadeVagas = quantidadeVagas;
 	}
 	public int getId() {
 		return id;
@@ -86,5 +83,25 @@ public class EstacionamentoBean implements Serializable {
 	}
 	public void setTiposPagamentos(List<TipoPagamento> tiposPagamentos) {
 		this.tiposPagamentos = tiposPagamentos;
+	}
+	public List<Vagas> getVagas() {
+		return vagas;
+	}
+	public void setVagas(List<Vagas> vagas) {
+		this.vagas = vagas;
+	}
+	public Integer getAvaliacao() {
+		return avaliacao;
+	}
+	public void setAvaliacao(Integer avaliacao) {
+		System.out.println("Avaliação realizada: " + avaliacao + " para o estacionamento " + nomeFantasia);
+		setAvaliou(true);
+		this.avaliacao = avaliacao;
+	}
+	public boolean isAvaliou() {
+		return avaliou;
+	}
+	public void setAvaliou(boolean avaliou) {
+		this.avaliou = avaliou;
 	}
 }

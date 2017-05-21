@@ -21,99 +21,78 @@
 		}
 	</script>
 	
-	<script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;key=AIzaSyB_meePMsRkwT59CpQygGg14wQ0eJXC5q8"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;key=AIzaSyB_meePMsRkwT59CpQygGg14wQ0eJXC5q8"></script>
 		
 </h:head>
 
 
 <h:body>
 
-		<h:form id="form1" prependId="false">
+	<h:form id="form1" prependId="false">
 		<p:growl id="messages" showDetail="true" />
-	<p:panel header="Vagas On Line" style="width:25%">
+		<p:panel header="Vagas On Line" style="width:25%">
 			<h:panelGrid columns="3" rendered="#{not empty facebookAPI.profile}">
-				<p:graphicImage value="#{facebookAPI.profile.profileImageURL}" 	styleClass="media-object" />
-		<h3 class="media-heading" style="margin-left: 10px;">#{facebookAPI.profile.fullName}</h3>
+				<p:graphicImage value="#{facebookAPI.profile.profileImageURL}"
+					styleClass="media-object" />
+				<h3 class="media-heading" style="margin-left: 10px;">#{facebookAPI.profile.fullName}</h3>
 			</h:panelGrid>
-			<p:growl/>
-	</p:panel>
-	<br/>
-	<p:separator/>
-	<br/><br/>
-		<p:gmap id="geoMap" widgetVar="geoMap" center="#{mb.centerGeoMap}"  style="width:100%;height:500px" 
-			type="TERRAIN" model="#{mb.simpleModel}" zoom="16">
-			 
-			<p:ajax event="overlaySelect" listener="#{mb.onMarkerSelect}"/>
+			<p:growl />
+		</p:panel>
+		<br />
+		<p:separator />
+		<br />
+		<br />
+		<p:gmap id="geoMap" widgetVar="geoMap" center="#{mb.centerGeoMap}"
+			style="width:100%;height:500px" type="TERRAIN"
+			model="#{mb.simpleModel}" zoom="16">
+
+			<p:ajax event="overlaySelect" listener="#{mb.onMarkerSelect}" />
 
 			<p:gmapInfoWindow id="infoWindow">
-				
-				<p:outputPanel	style="text-align: center; display: block; margin: auto; margin-top:10px;" >
-					<h:outputText value="#{mb.marker.title}" style="font-weight: bold; font-size: 150%; " />
+
+				<p:outputPanel
+					style="text-align: center; display: block; margin: auto; margin-top:10px;">
+					<h:outputText value="#{mb.marker.title}"
+						style="font-weight: bold; font-size: 150%; " />
 				</p:outputPanel>
-				
+
 				<h:panelGrid columns="2" style="margin-top:20px; width:100%;">
-			            <p:graphicImage name="img/placa.png" width="50%" height="50%"/>
-			            <h:panelGrid columns="2">
-			            	<p:graphicImage name="img/dinheiro.png"/>	
-			            	<p:graphicImage name="img/visa.png"/>
-			            	<p:graphicImage name="img/master.png"/>
-			            	<p:graphicImage name="img/amex.png"/>				            	      		
-			            </h:panelGrid>
-			            <br />
-			            <!-- <p:commandButton value="Avalie o estacionamento" type="button" onclick="PF('dlg2').show();" /> -->
-			            <p:rating value="#{ratingView.rating3}" cancel="false">
-				          	<p:ajax event="rate" listener="#{ratingView.onrate}" update="messages" />
-				          	<p:ajax event="cancel" listener="#{ratingView.oncancel}" update="messages" />
-				   		</p:rating>	
-        			</h:panelGrid>
-				
+					<p:graphicImage name="img/placa.png" width="50%" height="50%" />
+					<h:panelGrid columns="2">
+						<ui:repeat value="#{mb.marker.data.tiposPagamentos}"
+							var="tipoPagamento">
+							<p:graphicImage name="#{tipoPagamento.caminhoImagem}" />
+						</ui:repeat>
+					</h:panelGrid>
+					<br />
+					<p:rating value="#{mb.marker.data.avaliacao}" cancel="false" disabled="#{mb.marker.data.avaliou}">
+						<p:ajax event="rate" listener="#{mb.onrate}"
+							update="messages" />
+					</p:rating>
+				</h:panelGrid>
+
 				<p:panelGrid style="margin-top:20px; width:100%;">
-    				
-	               	<p:row>
-				        <p:column colspan="2" style="font-weight: bold; text-align: center;">VALOR/HORA</p:column>	
-				        <p:column style="font-weight: bold; text-align: center;">VAGAS</p:column>	 
-				    </p:row>
-				    <p:row>
-				        <p:column style="text-align: left;font-size: 80%; font-weight: bold;">Moto</p:column>		
-				        <p:column style="text-align: center; font-size: 100%;">R$4,00</p:column>	
-				        <p:column style="text-align: center; font-size: 100%;">30</p:column>		 
-				    </p:row>
-				    <p:row>
-				    	<p:column style="text-align: left;font-size: 80%; font-weight: bold;">Passeio</p:column>
-				        <p:column style="text-align: center; font-size: 100%;">R$8,00</p:column>	
-				        <p:column style="text-align: center; font-size: 100%;">8</p:column>			 
-				    </p:row>
-				    <p:row>
-				    	<p:column style="text-align: left;font-size: 80%; font-weight: bold;">Caminhonete</p:column>
-				        <p:column style="text-align: center; font-size: 100%;">R$15,00</p:column>		
-				        <p:column style="text-align: center; font-size: 100%;">3</p:column>		 
-				    </p:row>
-				    <p:row>
-				    	<p:column style="text-align: left;font-size: 80%; font-weight: bold;">Caminhão</p:column>
-				        <p:column style="text-align: center; font-size: 100%;">R$20,00</p:column>	
-				        <p:column style="text-align: center; font-size: 100%;">1</p:column>			 
-				    </p:row>
+
+					<p:row>
+						<p:column colspan="2"
+							style="font-weight: bold; text-align: center;">VALOR/HORA</p:column>
+						<p:column style="font-weight: bold; text-align: center;">VAGAS</p:column>
+					</p:row>
+
+					<ui:repeat value="#{mb.marker.data.vagas}" var="vaga">
+						<p:row>
+							<p:column
+								style="text-align: left;font-size: 80%; font-weight: bold;">#{vaga.tipo}</p:column>
+							<p:column style="text-align: center; font-size: 100%;">#{vaga.valor}</p:column>
+							<p:column style="text-align: center; font-size: 100%;">#{vaga.quantidade}</p:column>
+						</p:row>
+					</ui:repeat>
+
 				</p:panelGrid>
-				
+
 			</p:gmapInfoWindow>
 
 		</p:gmap>
-
-	<p:dialog widgetVar="dlEmpresa" closable="false" resizable="false">
-		<h:panelGrid columns="2">
-			<p:outputLabel value="Razao Social: "/>
-			<p:inputText value="#{mb.estacionamento.nomeFantasia}"/>
-			
-		</h:panelGrid>
-	</p:dialog>
-	
-	<p:dialog header="Avaliação" widgetVar="dlg2" modal="true" height="100">
-        <p:rating value="#{ratingView.rating3}">
-          	<p:ajax event="rate" listener="#{ratingView.onrate}" update="messages" />
-          	<p:ajax event="cancel" listener="#{ratingView.oncancel}" update="messages" />
-   		</p:rating>	 
-	</p:dialog> 
 
 	</h:form>
 
