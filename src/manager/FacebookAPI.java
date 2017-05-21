@@ -34,13 +34,15 @@ public class FacebookAPI implements Serializable {
 
 	private final String mainURL 		= "http://192.168.1.103:9091/EstacionamentoOnlineEntradaCliente/sistema.jsf";
 	private final String redirectURL 	= "http://192.168.1.103:9091/EstacionamentoOnlineEntradaCliente/redirectHome.jsf";
+	//private final String mainURL 		= "http://localhost:9091/EstacionamentoOnlineEntradaCliente/sistema.jsf";
+	//private final String redirectURL 	= "http://localhost:9091/EstacionamentoOnlineEntradaCliente/redirectHome.jsf";
 	private final String provider 		= "facebook";
 
 	public void conectarFacebook() {
 		Properties prop = System.getProperties();
 		prop.put("graph.facebook.com.consumer_key", "1683062935316658");
 		prop.put("graph.facebook.com.consumer_secret", "fd3969376367f68db05c00462e6370c7");
-		prop.put("graph.facebook.com.custom_permissions", "public_profile, email");
+		prop.put("graph.facebook.com.custom_permissions", "public_profile, email, user_birthday");
 
 		SocialAuthConfig socialConfig = SocialAuthConfig.getDefault();
 		try {
@@ -63,7 +65,6 @@ public class FacebookAPI implements Serializable {
 		if (socialManager != null) {
 			AuthProvider provider = socialManager.connect(parametros);
 			this.setProfile(provider.getUserProfile());
-
 		}
 
 		FacesContext.getCurrentInstance().getExternalContext().redirect(mainURL);
