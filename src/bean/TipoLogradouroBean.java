@@ -9,6 +9,10 @@ public class TipoLogradouroBean implements Serializable {
 	private int id;
 	private String nome;
 	
+	public TipoLogradouroBean(int id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
 	public int getId() {
 		return id;
 	}

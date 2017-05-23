@@ -42,32 +42,11 @@ public class ManagerBean implements Serializable{
 	
 	
 	@PostConstruct
-	public void init() {
-		geoModel 			= new DefaultMapModel();
-		lstEstacionamento 	= new EstacionamentoDAO().buscaTodos();
-		carregarEnderecosMapa();
-	}
-	
-	/**
-	 * metodo para marcar vários pontos no mapa - com base nas empresas do banco
-	 */
-	private void carregarEnderecosMapa(){
-		simpleModel = new DefaultMapModel();		
-		for(EstacionamentoBean estacionamento : lstEstacionamento){
-			LatLng latLng = estacionamento.getEnderecoBean().getCoordenadas().getLatLng();
-			simpleModel.addOverlay(new Marker(latLng, estacionamento.getNomeFantasia(), estacionamento));
-		}
-	}
-
-	public void onMarkerSelect(OverlaySelectEvent event){
-		marker = (Marker) event.getOverlay();
-		FacesContext.getCurrentInstance().addMessage("form1", 
-					new FacesMessage("Endereco Marcado: "+ marker.getTitle() + "-" 
-							+ marker.getLatlng()));
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("teste", marker.getTitle());
-	}
+	public void init() {}
 	
 	public void setLocalizacaoAtual(){
+		
+		carregarEnderecosMapa();
 		
 		LatLng coord 						= null;
 		Map<String, String> requestParamMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -86,6 +65,31 @@ public class ManagerBean implements Serializable{
         centerGeoMap = coordenadas.toString();
 		//simpleModel.addOverlay(new Marker(coord, "Você está aqui!", "", "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png"));
 		simpleModel.addOverlay(new Marker(coord, "Você está aqui!", estacionamento));
+	}
+	
+	/**
+	 * metodo para marcar vários pontos no mapa - com base nas empresas do banco
+	 */
+	private void carregarEnderecosMapa(){
+		
+		geoModel			= new DefaultMapModel();
+		simpleModel 		= new DefaultMapModel();		
+		
+		// LISTA TODOS OS ESTACIONAMENTOS ATIVOS CADASTRADOS
+		lstEstacionamento 	= new EstacionamentoDAO().listaTodos();
+		
+		for(EstacionamentoBean estacionamento : lstEstacionamento){
+			LatLng latLng = estacionamento.getEnderecoBean().getCoordenadas().getLatLng();
+			simpleModel.addOverlay(new Marker(latLng, estacionamento.getNomeFantasia(), estacionamento));
+		}
+	}
+
+	public void onMarkerSelect(OverlaySelectEvent event){
+		marker = (Marker) event.getOverlay();
+		FacesContext.getCurrentInstance().addMessage("form1", 
+					new FacesMessage("Endereco Marcado: "+ marker.getTitle() + "-" 
+							+ marker.getLatlng()));
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("teste", marker.getTitle());
 	}
 	
 	public void onrate(RateEvent rateEvent) {

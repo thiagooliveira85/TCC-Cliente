@@ -9,6 +9,10 @@ public class BairroBean implements Serializable {
 	private int id;
 	private String nome;
 	
+	public BairroBean(int id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
 	public int getId() {
 		return id;
 	}

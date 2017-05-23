@@ -19,8 +19,7 @@ public class EstacionamentoBean implements Serializable {
 	private int quantidadeFuncionarios;
 	
 	private List<TipoPagamento> tiposPagamentos;
-	
-	private List<Vagas> vagas;
+	private List<TipoVaga> tiposVaga;
 	
 	private boolean avaliou;
 	
@@ -84,12 +83,6 @@ public class EstacionamentoBean implements Serializable {
 	public void setTiposPagamentos(List<TipoPagamento> tiposPagamentos) {
 		this.tiposPagamentos = tiposPagamentos;
 	}
-	public List<Vagas> getVagas() {
-		return vagas;
-	}
-	public void setVagas(List<Vagas> vagas) {
-		this.vagas = vagas;
-	}
 	public Integer getAvaliacao() {
 		return avaliacao;
 	}
@@ -102,5 +95,11 @@ public class EstacionamentoBean implements Serializable {
 	}
 	public void setAvaliou(boolean avaliou) {
 		this.avaliou = avaliou;
+	}
+	public List<TipoVaga> getTiposVaga() {
+		return tiposVaga;
+	}
+	public void setTiposVaga(List<TipoVaga> tiposVaga) {
+		this.tiposVaga = tiposVaga;
 	}
 }

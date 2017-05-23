@@ -2,27 +2,27 @@ package bean;
 
 public class Vagas {
 	
-	private String tipo;
+	private TipoVaga tipo;
 	private String altura;
 	private String largura;
 	private String comprimento;
-	private int quantidade;
-	private double valor;
+	private String codigo;
+	private boolean ocupada;
 	
-	public Vagas(String tipo, String altura, String largura,
-			String comprimento, int quantidade, double valor) {
+	public Vagas(TipoVaga tipo, String altura, String largura,
+			String comprimento, String codigo, boolean ocupada) {
 		super();
 		this.tipo = tipo;
 		this.altura = altura;
 		this.largura = largura;
 		this.comprimento = comprimento;
-		this.quantidade = quantidade;
-		this.valor = valor;
+		this.codigo = codigo;
+		this.ocupada = ocupada;
 	}
-	public String getTipo() {
+	public TipoVaga getTipo() {
 		return tipo;
 	}
-	public void setTipo(String tipo) {
+	public void setTipo(TipoVaga tipo) {
 		this.tipo = tipo;
 	}
 	public String getAltura() {
@@ -43,17 +43,16 @@ public class Vagas {
 	public void setComprimento(String comprimento) {
 		this.comprimento = comprimento;
 	}
-	public double getValor() {
-		return valor;
+	public String getCodigo() {
+		return codigo;
 	}
-	public void setValor(double valor) {
-		this.valor = valor;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
-	public int getQuantidade() {
-		return quantidade;
+	public boolean isOcupada() {
+		return ocupada;
 	}
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
+	public void setOcupada(boolean ocupada) {
+		this.ocupada = ocupada;
 	}
-	
 }

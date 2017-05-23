@@ -79,12 +79,12 @@
 						<p:column style="font-weight: bold; text-align: center;">VAGAS</p:column>
 					</p:row>
 
-					<ui:repeat value="#{mb.marker.data.vagas}" var="vaga">
+					<ui:repeat value="#{mb.marker.data.tiposVaga}" var="tipos">
 						<p:row>
 							<p:column
-								style="text-align: left;font-size: 80%; font-weight: bold;">#{vaga.tipo}</p:column>
-							<p:column style="text-align: center; font-size: 100%;">#{vaga.valor}</p:column>
-							<p:column style="text-align: center; font-size: 100%;">#{vaga.quantidade}</p:column>
+								style="text-align: left;font-size: 80%; font-weight: bold;">#{tipos.nome}</p:column>
+							<p:column style="text-align: center; font-size: 100%;">#{tipos.preco}</p:column>
+							<p:column style="text-align: center; font-size: 100%;">#{tipos.quantidadeVagas}</p:column>
 						</p:row>
 					</ui:repeat>
 
