@@ -13,7 +13,7 @@ import bean.EnderecoBean;
 import bean.EstacionamentoBean;
 import bean.StatusBean;
 import bean.TipoLogradouroBean;
-import bean.Vagas;
+import bean.TipoVaga;
 import db.DB;
 
 public class EstacionamentoDAO extends DB {
@@ -41,6 +41,9 @@ public class EstacionamentoDAO extends DB {
 			+ " AND c.id = end.id_cidade "
 			+ " AND s.id = e.id_status " 
 			+ " AND s.nome = 'ATIVO'";
+	
+	private String BUSCA_COORDENADAS_POR_ESTACIONAMENTO = " select latitude, longitude from endereco where  id in "
+			+ " ( select id_endereco from estacionamento where upper(nome_fantasia) like ";
 
 	/*public List<EstacionamentoBean> buscaTodos() {
 		
@@ -138,6 +141,57 @@ public class EstacionamentoDAO extends DB {
 			close(conn, pstmt, rs);
 		}
 		return listaEstacionamentoBean;
+	}
+
+	public Coordenadas buscaCoordenadasPorEstacionamento(String valorPesquisa) {
+		
+		Connection conn				=	null;
+		PreparedStatement pstmt		=	null;
+		ResultSet rs				=	null;
+		
+		try {
+			conn	=	getMyqslConnection();
+			
+			if (valorPesquisa != null)
+				valorPesquisa = valorPesquisa.toUpperCase();
+			
+			String sql = BUSCA_COORDENADAS_POR_ESTACIONAMENTO + "'%" + valorPesquisa + "%')";
+			
+			pstmt	=	conn.prepareStatement(sql);	
+			rs		=	pstmt.executeQuery();
+
+			if(rs.next())
+				return new Coordenadas(rs.getString("LATITUDE"), rs.getString("LONGITUDE"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		
+		return null;	
+	}
+
+	public boolean avaliarEstacionamento(EstacionamentoBean estac) {
+		
+		Connection conn				=	null;
+		PreparedStatement pstmt		=	null;
+		
+		try {
+			conn = getMyqslConnection();
+			
+			pstmt =	conn.prepareStatement(" update estacionamento set avaliacao = (avaliacao + ?) where id = ? ");	
+			pstmt.setInt(1, estac.getAvaliacao());
+			pstmt.setInt(2, estac.getId());
+			if(pstmt.executeUpdate() > 0)
+				return true;
+			
+		} catch (Exception e) {
+			return false;
+		} finally {
+			close(conn, pstmt, null);
+		}
+		return false;
 	}
 
 }

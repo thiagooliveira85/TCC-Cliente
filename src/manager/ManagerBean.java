@@ -1,5 +1,6 @@
 package manager;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,11 @@ import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 
-import dao.EstacionamentoDAO;
+import util.Util;
 import bean.Coordenadas;
 import bean.EstacionamentoBean;
+import business.PesquisaBusiness;
+import dao.EstacionamentoDAO;
 
 @ManagedBean(name="mb")
 @SessionScoped
@@ -40,6 +43,8 @@ public class ManagerBean implements Serializable{
 	private MapModel simpleModel;
 	private Marker marker;
 	
+	private String valorPesquisa;
+	private String tipoPesquisa;
 	
 	@PostConstruct
 	public void init() {}
@@ -93,9 +98,25 @@ public class ManagerBean implements Serializable{
 	}
 	
 	public void onrate(RateEvent rateEvent) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Obrigado pela avaliação!");
-        FacesContext.getCurrentInstance().addMessage(null, message);
+		
+		/*Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String strId 		= params.get("ident");*/
+        
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Obrigado pela avaliação!");		
+		FacesContext.getCurrentInstance().addMessage(null, message);
     }
+	
+	public void buscaInformacoesMapa() {
+		try {
+			Coordenadas coord = new PesquisaBusiness().buscaLocalizacaoPorTipo(tipoPesquisa, valorPesquisa);
+			centerGeoMap = coord.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			valorPesquisa = null;
+			tipoPesquisa = null;
+		}
+	}
 
 	public MapModel getSimpleModel() {
 		return simpleModel;
@@ -136,5 +157,22 @@ public class ManagerBean implements Serializable{
 	public void setLstEstacionamento(List<EstacionamentoBean> lstEstacionamento) {
 		this.lstEstacionamento = lstEstacionamento;
 	}
-	
+
+	public String getValorPesquisa() {
+		return valorPesquisa;
+	}
+
+	public void setValorPesquisa(String valorPesquisa) {
+		valorPesquisa = Util.retiraAcentos(valorPesquisa);
+		this.valorPesquisa = valorPesquisa;
+	}
+
+	public String getTipoPesquisa() {
+		return tipoPesquisa;
+	}
+
+	public void setTipoPesquisa(String tipoPesquisa) {
+		this.tipoPesquisa = tipoPesquisa;
+	}
+
 }

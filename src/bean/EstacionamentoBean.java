@@ -3,6 +3,8 @@ package bean;
 import java.io.Serializable;
 import java.util.List;
 
+import dao.EstacionamentoDAO;
+
 public class EstacionamentoBean implements Serializable {
 	
 	private static final long serialVersionUID = 6750485015161261228L;
@@ -87,8 +89,12 @@ public class EstacionamentoBean implements Serializable {
 		return avaliacao;
 	}
 	public void setAvaliacao(Integer avaliacao) {
-		setAvaliou(true);
 		this.avaliacao = avaliacao;
+		boolean avaliado = new EstacionamentoDAO().avaliarEstacionamento(this);
+		if (avaliado)
+			setAvaliou(true);
+		else
+			setAvaliou(false);
 	}
 	public boolean isAvaliou() {
 		return avaliou;

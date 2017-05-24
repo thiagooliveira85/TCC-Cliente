@@ -26,28 +26,58 @@
 </h:head>
 
 
-<h:body>
+<h:body onload="reload();">
 
 	<h:form id="form1" prependId="false">
+		<p:remoteCommand name="reload" process="@this" update="geoMap" actionListener="#{mb.setLocalizacaoAtual}" />
+		<p:poll interval="30"  listener="#{mb.setLocalizacaoAtual}" process="@this" update="geoMap" />
 		<p:growl id="messages" showDetail="true" />
-		<p:panel header="Vagas On Line" style="width:25%">
-			<h:panelGrid columns="3" rendered="#{not empty facebookAPI.profile}">
-				<p:graphicImage value="#{facebookAPI.profile.profileImageURL}"
-					styleClass="media-object" />
-				<h3 class="media-heading" style="margin-left: 10px;">#{facebookAPI.profile.fullName}</h3>
+			<!--  <p:tabMenu activeIndex="2">
+			    <p:menuitem value="Home" icon="ui-icon-home" iconPos="top"/>
+			    <p:menuitem value="Settings" icon="ui-icon-gear" iconPos="top"/>
+			    <p:menuitem value="Pesquisar" icon="ui-icon-search" iconPos="top"/>
+			</p:tabMenu> -->
+		<p:toolbar>
+		    <f:facet name="left">
+		       <h3 style="margin-left: 10%;"><p:link style="text-decoration: none;" href="http://192.168.1.103:9091/EstacionamentoOnlineEntradaCliente">
+		       		Estacionamento Online</p:link>
+		       </h3>
+		    </f:facet>
+		    <f:facet name="right">
+		    	<h:panelGrid columns="2">
+		    		<p:graphicImage value="#{facebookAPI.profile.profileImageURL}" style="width:60%; height:60%;" />
+		        	<h5 style="margin-left: 0px;">#{facebookAPI.profile.fullName}</h5>
+		    	</h:panelGrid>
+		    </f:facet>
+		</p:toolbar>
+		<p:panel style="width:99%; margin-top:2%;">
+			<!-- <h:panelGrid columns="5" cellpadding="5%" rendered="#{not empty facebookAPI.profile}">
+				
+			</h:panelGrid> -->
+			<h:panelGrid columns="2" style="text-align:right; width:100%; margin-top:-0.5%;">
+				<p:row>
+					<p:column>
+						<p:selectOneMenu id="pesq" value="#{mb.tipoPesquisa}" style="margin-right:10px; width:200px; vertical-align: bottom;" required="true">
+							<f:selectItem itemLabel="Pesquise por.." itemValue="" />
+							<f:selectItem itemLabel="Endereço" itemValue="endereco" />
+							<f:selectItem itemLabel="Estacionamento" itemValue="estacionamento" />
+							<f:selectItem itemLabel="Tipo de vaga" itemValue="tipoVaga" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:inputText style="margin-right:10px; vertical-align: bottom;" value="#{mb.valorPesquisa}" />
+					</p:column>
+					<p:column>
+						<p:commandButton icon="ui-icon-search" title="Pesquisar" action="#{mb.buscaInformacoesMapa}" update="geoMap"/>
+					</p:column>
+				</p:row>
 			</h:panelGrid>
 			<p:growl />
-		</p:panel>
-		<br />
-		<p:separator />
-		<br />
-		<br />
 		<p:gmap id="geoMap" widgetVar="geoMap" center="#{mb.centerGeoMap}"
-			style="width:100%;height:500px" type="TERRAIN"
+			style="width:100%;height:500px; margin-top:0.5%;" type="TERRAIN"
 			model="#{mb.simpleModel}" zoom="16">
 
 			<p:ajax event="overlaySelect" listener="#{mb.onMarkerSelect}" />
-
 			<p:gmapInfoWindow id="infoWindow">
 
 				<p:outputPanel
@@ -66,6 +96,7 @@
 					</h:panelGrid>
 					<br />
 					<p:rating value="#{mb.marker.data.avaliacao}" cancel="false" disabled="#{mb.marker.data.avaliou}">
+						<!-- <f:param name="ident" value="#{mb.marker.title}" /> -->
 						<p:ajax event="rate" listener="#{mb.onrate}"
 							update="messages" />
 					</p:rating>
@@ -82,8 +113,8 @@
 					<ui:repeat value="#{mb.marker.data.tiposVaga}" var="tipos">
 						<p:row>
 							<p:column
-								style="text-align: left;font-size: 80%; font-weight: bold;">#{tipos.nome}</p:column>
-							<p:column style="text-align: center; font-size: 100%;">#{tipos.preco}</p:column>
+								style="text-align: left;font-size: 100%; font-weight: bold;">#{tipos.nome}</p:column>
+							<p:column style="text-align: center; font-size: 100%;">R$ #{tipos.preco}</p:column>	
 							<p:column style="text-align: center; font-size: 100%;">#{tipos.quantidadeVagas}</p:column>
 						</p:row>
 					</ui:repeat>
@@ -93,7 +124,7 @@
 			</p:gmapInfoWindow>
 
 		</p:gmap>
-
+</p:panel>
 	</h:form>
 
 </h:body>

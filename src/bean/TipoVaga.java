@@ -1,5 +1,7 @@
 package bean;
 
+import java.text.DecimalFormat;
+
 
 public class TipoVaga {
 
@@ -9,7 +11,7 @@ public class TipoVaga {
 	private int quantidadeVagas;
 	
 	public TipoVaga(double preco, String nome, int quantidadeVagas) {
-		this.preco = preco;
+		setPreco(preco);
 		this.nome = nome;
 		this.quantidadeVagas = quantidadeVagas;
 	}
@@ -29,7 +31,10 @@ public class TipoVaga {
 		return preco;
 	}
 	public void setPreco(double preco) {
-		this.preco = preco;
+		double valor = preco;
+		DecimalFormat formato = new DecimalFormat("#.##");      
+		valor = Double.valueOf(formato.format(valor));
+		this.preco = valor;
 	}
 	public int getQuantidadeVagas() {
 		return quantidadeVagas;
