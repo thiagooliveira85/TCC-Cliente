@@ -151,4 +151,11 @@ public class EnderecoBean implements Serializable{
 	public void setCoordenadas(Coordenadas coordenadas) {
 		this.coordenadas = coordenadas;
 	}
+	
+	@Override
+	public String toString() {
+		if (tipoLogradouroBean == null || nomeLogradouro == null || bairroBean == null || cidadeBean == null)
+			return "";
+		return tipoLogradouroBean.getNome() + " " + nomeLogradouro+ " nº " + numero+ " - " + bairroBean.getNome()+ " - " + cidadeBean.getNome() + ".";
+	}
 }

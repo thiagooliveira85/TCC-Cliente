@@ -2,6 +2,8 @@ package manager;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +48,12 @@ public class ManagerBean implements Serializable{
 	private String valorPesquisa;
 	private String tipoPesquisa;
 	
+	private String linkLogotipo;
+	
 	@PostConstruct
-	public void init() {}
+	public void init() {
+		setLinkLogotipo();
+	}
 	
 	public void setLocalizacaoAtual(){
 		
@@ -91,9 +97,6 @@ public class ManagerBean implements Serializable{
 
 	public void onMarkerSelect(OverlaySelectEvent event){
 		marker = (Marker) event.getOverlay();
-		FacesContext.getCurrentInstance().addMessage("form1", 
-					new FacesMessage("Endereco Marcado: "+ marker.getTitle() + "-" 
-							+ marker.getLatlng()));
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("teste", marker.getTitle());
 	}
 	
@@ -173,6 +176,23 @@ public class ManagerBean implements Serializable{
 
 	public void setTipoPesquisa(String tipoPesquisa) {
 		this.tipoPesquisa = tipoPesquisa;
+	}
+
+	public String getLinkLogotipo() {
+		return linkLogotipo;
+	}
+	
+	/**
+	 * Seta o link do logotipo na página com o IP da máquina
+	 */
+	public void setLinkLogotipo() {
+		String hostAddress = "";
+		try {
+			hostAddress = InetAddress.getLocalHost().getHostAddress();
+			linkLogotipo = "http://" + hostAddress + ":9091/EstacionamentoOnlineEntradaCliente";
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

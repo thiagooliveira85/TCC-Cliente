@@ -1,6 +1,6 @@
 package bean;
 
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 
 public class TipoVaga {
@@ -10,10 +10,12 @@ public class TipoVaga {
 	private String nome;
 	private int quantidadeVagas;
 	
+	private String precoFormatado;
+	
 	public TipoVaga(double preco, String nome, int quantidadeVagas) {
 		setPreco(preco);
-		this.nome = nome;
-		this.quantidadeVagas = quantidadeVagas;
+		setNome(nome);
+		setQuantidadeVagas(quantidadeVagas);;
 	}
 	public int getId() {
 		return id;
@@ -30,16 +32,27 @@ public class TipoVaga {
 	public double getPreco() {
 		return preco;
 	}
+	
+	/**
+	 * Seta o preço double e formata em reais R$ 00,00 para exibição em tela
+	 * @param preco 
+	 * @param precoFormatado
+	 */
 	public void setPreco(double preco) {
-		double valor = preco;
-		DecimalFormat formato = new DecimalFormat("#.##");      
-		valor = Double.valueOf(formato.format(valor));
-		this.preco = valor;
+		this.preco = preco;
+		this.precoFormatado = NumberFormat.getCurrencyInstance().format(this.preco);;
 	}
 	public int getQuantidadeVagas() {
 		return quantidadeVagas;
 	}
 	public void setQuantidadeVagas(int quantidadeVagas) {
 		this.quantidadeVagas = quantidadeVagas;
+	}
+	public String getPrecoFormatado() {
+		return precoFormatado;
+	}
+	
+	public void formataPreco(double preco) {
+		
 	}
 }
