@@ -1,3 +1,5 @@
+-- Compartilhar JBOSS com Pablo
+
 - Fazer o relatorio de faturamento, período e tipo de vaga por estacionamento
 
 - Pesquisa por tipo de vaga e pesquisa por preços
@@ -10,7 +12,20 @@
 
 - Fazer calculo para avaliação de um estacionamento com os demais.
 
-Verificar se há alguma informação importante a ser mostrada no estacionamento
+- Verificar se há alguma informação importante a ser mostrada no estacionamento
+
+-- Melhoria o relatorio com jasper report
 
 
 
+
+create table historico_aluguel(
+	id int auto_increment primary key,
+    tipo_vaga varchar(20) not null,
+    modelo varchar(20), 
+	Placa varchar(7) not null,
+	codigo_vaga varchar(20) not null,
+	hora_entrada TIMESTAMP not null,
+	hora_saida TIMESTAMP not null,
+	valor_cobrado decimal not null	
+); 
