@@ -40,7 +40,7 @@ public class TipoVaga {
 	 */
 	public void setPreco(double preco) {
 		this.preco = preco;
-		this.precoFormatado = NumberFormat.getCurrencyInstance().format(this.preco);;
+		this.precoFormatado = NumberFormat.getCurrencyInstance().format(this.preco);
 	}
 	public int getQuantidadeVagas() {
 		return quantidadeVagas;

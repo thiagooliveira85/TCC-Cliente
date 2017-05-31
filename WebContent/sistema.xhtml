@@ -20,10 +20,11 @@
 		<p:poll interval="30" listener="#{mb.setLocalizacaoAtual}" process="@this" update="geoMap" />
 		<p:growl id="messages" showDetail="true" />
 		
-		<p:toolbar>
+		<!-- <p:toolbar>
 			<f:facet name="left">
 				<h3 style="margin-left: 10%;">
 					<p:link style="text-decoration: none;" href="#{mb.linkLogotipo}">Estacionamento Online</p:link>
+					<p:graphicImage name="img/logotipo.png" style="width:40%; height:40%; margin-top:0; margin-bottom:0; " />
 				</h3>
 			</f:facet>
 			<f:facet name="right">
@@ -33,8 +34,12 @@
 				</h:panelGrid>
 			</f:facet>
 		</p:toolbar>
+		 -->
+		 <div align="center">
+		 	 <p:graphicImage name="img/logotipo.png" style="width:8%; height:8%; margin-top:0; margin-bottom:0; " />
+		 </div>
 		
-		<p:panel style="width:99%; margin-top:2%;">
+		<p:panel style="width:99%; margin-top:1%;">
 			<h:panelGrid columns="2"
 				style="text-align:right; width:100%; margin-top:-0.5%;">
 				<p:row>

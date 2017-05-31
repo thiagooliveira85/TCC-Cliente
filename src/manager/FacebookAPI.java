@@ -31,10 +31,10 @@ public class FacebookAPI implements Serializable {
 	private SocialAuthManager socialManager;
 	private Profile profile;
 
-	private String mainURL 		= "http://[IP]:9091/EstacionamentoOnlineEntradaCliente/sistema.jsf";
-	private String redirectURL 	= "http://[IP]:9091/EstacionamentoOnlineEntradaCliente/redirectHome.jsf";
-	//private final String mainURL 		= "http://localhost:9091/EstacionamentoOnlineEntradaCliente/sistema.jsf";
-	//private final String redirectURL 	= "http://localhost:9091/EstacionamentoOnlineEntradaCliente/redirectHome.jsf";
+	//private String mainURL 		= "http://[IP]:9091/EstacionamentoOnlineEntradaCliente/sistema.jsf";
+	//private String redirectURL 	= "http://[IP]:9091/EstacionamentoOnlineEntradaCliente/redirectHome.jsf";
+	private String mainURL 		= "http://localhost:9091/EstacionamentoOnlineEntradaCliente/sistema.jsf";
+	private String redirectURL 	= "http://localhost:9091/EstacionamentoOnlineEntradaCliente/redirectHome.jsf";
 	private final String provider 		= "facebook";
 	
 	public FacebookAPI() {
