@@ -23,8 +23,12 @@
 	
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet" />
 	
+	<!--  
+	<script src="https://apis.google.com/js/platform.js" />
+	<meta name="google-signin-client_id" content="184575852001-iqktbeolu8e4f0qjqhe759e1v3204o5k.apps.googleusercontent.com" /> -->
+	
 	<script type="text/javascript">
-
+	
 	 	 // Function para buscar a localização atual via script no browser
 	 	 navigator.geolocation.getCurrentPosition(locationSuccess, locationFail); 
 		 function locationSuccess(position) {
@@ -50,8 +54,29 @@
 	                 value : ''          
 	          	} ]);
 		  }
+
+		  function onSignIn(googleUser) {
+				// window.location.href='success.jsp';
+			  var profile = googleUser.getBasicProfile();
+			  var imagurl=profile.getImageUrl();
+			  var name=profile.getName();
+			  var email=profile.getEmail();
+
+				alert(name);
+				alert(email);
+
+			  //document.getElementById("myImg").src = imagurl;
+			  //document.getElementById("name").innerHTML = name;
+			  //document.getElementById("myP").style.visibility = "hidden";
+		   }
+
+		  function myFunction() {
+			  gapi.auth2.getAuthInstance().disconnect();
+		      location.reload();
+		  }
 	
 	</script>
+	
 </h:head>
 
 <h:body>
@@ -62,6 +87,8 @@
 		<div class="container text-center">
 			<p:graphicImage name="img/logotipo.png" style="width:12%; height:12%; margin-top:2%; margin-bottom:0; " />
 			<h:form class="form-signin" >
+				<!-- <div class="g-signin2" data-onsuccess="onSignIn" id="myP"></div>
+				<button onclick="myFunction()">Sign Out</button> -->
 				<p:remoteCommand name="passou" process="@this" actionListener="#{mb.setLocalizacaoAtual}" />
 				<p:remoteCommand name="rc" process="@this" actionListener="#{facebookAPI.conectarFacebook}" />
 				
@@ -79,7 +106,7 @@
 				</p>
 
 				<div class="btn-group social-login-more">
-					<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">Mais...</button>
+					<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown" title="Em contrução...">Mais...</button>
 				</div>
 				
 			</h:form>

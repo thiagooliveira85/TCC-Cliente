@@ -27,5 +27,22 @@ public class PesquisaBusiness {
 		
 		return coord;
 	}
+	
+	// ISSO AQUI TÁ UM LIXO... MAS POR ENQUANTO SÓ PRA BRINCAR
+	public String buscaIconePorTipo(String tipoVaga) {
+		
+		if (tipoVaga.equalsIgnoreCase("MOTO")){
+			return "http://icon-icons.com/icons2/577/PNG/64/TouringMotorcycle_Green_icon-icons.com_54907.png";
+		}else if (tipoVaga.equalsIgnoreCase("CARRO")){
+			return "http://icon-icons.com/icons2/577/PNG/64/Cabriolet_Red_icon-icons.com_54906.png";
+		}else if (tipoVaga.equalsIgnoreCase("CAMINHAO")){
+			return "http://icon-icons.com/icons2/577/PNG/64/Truck_Yellow_icon-icons.com_54884.png";
+		}else if (tipoVaga.equalsIgnoreCase("PICKUP")){
+			return "http://icon-icons.com/icons2/577/PNG/64/TowTruck_Yellow_icon-icons.com_54896.png";
+		}
+		
+		return "";
+		 //; //;//"http://icon-icons.com/icons2/577/PNG/48/ExecutiveCar_Black_icon-icons.com_54904.png"; //
+	}
 
 }

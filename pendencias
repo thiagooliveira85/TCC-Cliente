@@ -1,28 +1,28 @@
+- Ajustar a tela para quando todas as vagas esgotadas - OK
 
-- Pesquisa por tipo de vaga e pesquisa por preços
+- Formatar as datas hora relatorio - OK
+
+- Ajustar o ponto atual - OK
+
+- Informar o estacionamento no relatorio para listagem dos alugueis
+
+- Autenticação filter
 
 - Relacionar o cliente com a avaliação
 
-- Ajustar a tela para quando todas as vagas esgotadas
+- Pesquisa por tipo de vaga e pesquisa por preços
+
+- Colocar os graficos nos relatorios
 
 - Ajustar a localizacao atual via IP
 
-- Fazer calculo para avaliação de um estacionamento com os demais.
+- Autenticação via google
 
 - Verificar se há alguma informação importante a ser mostrada no estacionamento
 
--- Melhoria o relatorio com jasper report
+- Melhoria na busca por tipo de vaga... combo select e busca do ícone
 
 
 
 
-create table historico_aluguel(
-	id int auto_increment primary key,
-    tipo_vaga varchar(20) not null,
-    modelo varchar(20), 
-	Placa varchar(7) not null,
-	codigo_vaga varchar(20) not null,
-	hora_entrada TIMESTAMP not null,
-	hora_saida TIMESTAMP not null,
-	valor_cobrado decimal not null	
-); 
+

@@ -1,5 +1,6 @@
 package manager;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
@@ -11,10 +12,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.RateEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
+import org.primefaces.event.map.PointSelectEvent;
+import org.primefaces.event.map.StateChangeEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
@@ -25,11 +29,14 @@ import bean.Coordenadas;
 import bean.EstacionamentoBean;
 import business.PesquisaBusiness;
 import dao.EstacionamentoDAO;
+import dao.PesquisaDAO;
 
 @ManagedBean(name="mb")
 @SessionScoped
 public class ManagerBean implements Serializable{
 	
+	private static final String ENDERECO_MARRETA = "rua camarista meier 831 engenho de dentro";
+
 	/**
 	 * 
 	 */
@@ -47,14 +54,19 @@ public class ManagerBean implements Serializable{
 	
 	private String valorPesquisa;
 	private String tipoPesquisa;
-	
 	private String linkLogotipo;
+	private int zoom;
+	
+	private Coordenadas coordInicial;
+	
 	
 	@PostConstruct
 	public void init() {
 		setLinkLogotipo();
+		setZoom(16);
+		marretaPosicaoAtualCasoNaoResgate();
 	}
-	
+
 	public void setLocalizacaoAtual(){
 		
 		carregarEnderecosMapa();
@@ -66,20 +78,26 @@ public class ManagerBean implements Serializable{
         Coordenadas coordenadas 			= null; 
         
         try {
-        	coordenadas = new Coordenadas(latitude, longitude);
-		} catch (Exception e) {
-			coordenadas = new Coordenadas("-22.9094818","-43.2969057");
+        	coordInicial = new Coordenadas(latitude, longitude);
+        	centerGeoMap = coordInicial.toString();
+		} catch (IllegalArgumentException e) {
+			//e.printStackTrace();
 			//coordenadas = new Coordenadas("-22.9723749", "-43.1880018");
+			//coordenadas = new Coordenadas("35.7102219","139.7315379");
 		}
 
-        coord = coordenadas.getLatLng();
-        centerGeoMap = coordenadas.toString();
-		//simpleModel.addOverlay(new Marker(coord, "Você está aqui!", "", "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png"));
-		simpleModel.addOverlay(new Marker(coord, "Você está aqui!", estacionamento));
+        coord = coordInicial.getLatLng();
+		Marker atualMarker = new Marker(coord, "Você está aqui!", estacionamento, "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png");
+		atualMarker.setClickable(false);
+		simpleModel.addOverlay(atualMarker);
+	}
+	
+	public void atualizaInformacoesEmTempoReal(){
+		setLocalizacaoAtual();
 	}
 	
 	/**
-	 * metodo para marcar vários pontos no mapa - com base nas empresas do banco
+	 * metodo para carregar os estacionamentos no mapa
 	 */
 	private void carregarEnderecosMapa(){
 		
@@ -94,10 +112,27 @@ public class ManagerBean implements Serializable{
 			simpleModel.addOverlay(new Marker(latLng, estacionamento.getNomeFantasia(), estacionamento));
 		}
 	}
+	
+	/**
+	 * metodo para carregar os estacionamentos por tipo de vaga
+	 */
+	private void carregarEnderecosPorTipoVaga(String tipoVaga){
+		
+		geoModel			= new DefaultMapModel();
+		simpleModel 		= new DefaultMapModel();		
+		
+		lstEstacionamento 	= new PesquisaDAO().listaEstacionamentosPorTipo(tipoVaga);
+		
+		String icon = new PesquisaBusiness().buscaIconePorTipo(tipoVaga);
+		
+		for(EstacionamentoBean estacionamento : lstEstacionamento){
+			LatLng latLng = estacionamento.getEnderecoBean().getCoordenadas().getLatLng();
+			simpleModel.addOverlay(new Marker(latLng, estacionamento.getNomeFantasia(), estacionamento, icon));
+		}
+	}
 
 	public void onMarkerSelect(OverlaySelectEvent event){
 		marker = (Marker) event.getOverlay();
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("teste", marker.getTitle());
 	}
 	
 	public void onrate(RateEvent rateEvent) {
@@ -111,13 +146,50 @@ public class ManagerBean implements Serializable{
 	
 	public void buscaInformacoesMapa() {
 		try {
-			Coordenadas coord = new PesquisaBusiness().buscaLocalizacaoPorTipo(tipoPesquisa, valorPesquisa);
-			centerGeoMap = coord.toString();
+			
+			if (tipoPesquisa.equals("tipoVaga")){
+				carregarEnderecosPorTipoVaga(valorPesquisa);
+			}else{
+				Coordenadas coord = new PesquisaBusiness().buscaLocalizacaoPorTipo(tipoPesquisa, valorPesquisa);
+				centerGeoMap = coord != null ? coord.toString() : centerGeoMap;
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
 			valorPesquisa = null;
 			tipoPesquisa = null;
+		}
+	}
+	
+	/**
+	 * Seta o link do logotipo na página com o IP da máquina
+	 */
+	public void setLinkLogotipo() {
+		String hostAddress = "";
+		try {
+			hostAddress = InetAddress.getLocalHost().getHostAddress();
+			linkLogotipo = "http://" + hostAddress + ":9091/EstacionamentoOnlineEntradaCliente";
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void onStateChange(StateChangeEvent event) {
+        zoom = event.getZoomLevel();
+        centerGeoMap = event.getCenter().getLat() + "," + event.getCenter().getLng();
+    }
+      
+    public void onPointSelect(PointSelectEvent event) {
+        LatLng latlng = event.getLatLng();
+    }
+    
+    private void marretaPosicaoAtualCasoNaoResgate() {
+		try {
+			coordInicial = new PesquisaBusiness().buscaLocalizacaoPorTipo("endereco", ENDERECO_MARRETA);
+			centerGeoMap = coordInicial.toString();
+		}catch(IOException e){
+			e.printStackTrace();	
 		}
 	}
 
@@ -181,18 +253,20 @@ public class ManagerBean implements Serializable{
 	public String getLinkLogotipo() {
 		return linkLogotipo;
 	}
-	
-	/**
-	 * Seta o link do logotipo na página com o IP da máquina
-	 */
-	public void setLinkLogotipo() {
-		String hostAddress = "";
-		try {
-			hostAddress = InetAddress.getLocalHost().getHostAddress();
-			linkLogotipo = "http://" + hostAddress + ":9091/EstacionamentoOnlineEntradaCliente";
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
+
+	public int getZoom() {
+		return zoom;
 	}
 
+	public void setZoom(int zoom) {
+		this.zoom = zoom;
+	}
+
+	public Coordenadas getCoordInicial() {
+		return coordInicial;
+	}
+
+	public void setCoordInicial(Coordenadas coordInicial) {
+		this.coordInicial = coordInicial;
+	}
 }
