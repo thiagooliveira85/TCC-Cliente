@@ -1,16 +1,8 @@
-- Ajustar a tela para quando todas as vagas esgotadas - OK
-
-- Formatar as datas hora relatorio - OK
-
-- Ajustar o ponto atual - OK
+- Autenticação filter
 
 - Informar o estacionamento no relatorio para listagem dos alugueis
 
-- Autenticação filter
-
 - Relacionar o cliente com a avaliação
-
-- Pesquisa por tipo de vaga e pesquisa por preços
 
 - Colocar os graficos nos relatorios
 
@@ -22,7 +14,7 @@
 
 - Melhoria na busca por tipo de vaga... combo select e busca do ícone
 
-
+- Possibiliade de listar por preços
 
 
 

@@ -69,7 +69,8 @@ public class FacebookAPI implements Serializable {
 
 		if (socialManager != null) {
 			AuthProvider provider = socialManager.connect(parametros);
-			this.setProfile(provider.getUserProfile());
+			Profile userProfile = provider.getUserProfile();
+			this.setProfile(userProfile);
 		}
 		
 		FacesContext.getCurrentInstance().getExternalContext().redirect(mainURL);
