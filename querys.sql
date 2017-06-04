@@ -49,7 +49,7 @@ create table tipo_pagamento (
 	nome varchar(50) not null unique	
 ); 
 
--- CRIA«√O DA ASSICIA«√O ESTACIONAMENTO COM TIPO_PAGAMENTO
+-- CRIA√á√ÉO DA ASSICIA√á√ÉO ESTACIONAMENTO COM TIPO_PAGAMENTO
 create table estacionamento_tp_pagamento (
 	id_estacionamento int not null,
 	id_tipo_pagamento int not null    
@@ -63,4 +63,5 @@ FOREIGN KEY(id_estacionamento) REFERENCES estacionamento (id);
 ALTER TABLE estacionamento_tp_pagamento ADD CONSTRAINT fk_tp_pagamento
 FOREIGN KEY(id_tipo_pagamento) REFERENCES tipo_pagamento (id);
 
+-- adicionando comprimento
 alter table vaga add comprimento int;
