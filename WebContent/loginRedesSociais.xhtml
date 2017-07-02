@@ -91,23 +91,12 @@
 				<button onclick="myFunction()">Sign Out</button> -->
 				<p:remoteCommand name="passou" process="@this" actionListener="#{mb.setLocalizacaoAtual}" />
 				<p:remoteCommand name="rc" process="@this" actionListener="#{facebookAPI.conectarFacebook}" />
-				
-				<small class="text-muted">Acesse com sua rede social</small>
+					<small class="text-muted">Acesse com sua rede social</small>
 				<p />
 				
 				<p>
 					<a class="btn btn-primary social-login-btn social-facebook" href="#" onclick="rc();" title="Acesse com a conta do facebook"><i class="fa fa-facebook"></i></a> 
-					<!-- <a class="btn btn-primary social-login-btn social-twitter" href="#"><i	class="fa fa-twitter"></i></a> -->
 				</p>
-				
-				<p>
-					<!-- <a class="btn btn-primary social-login-btn social-linkedin"	href="#"><i class="fa fa-linkedin"></i></a>  -->
-					<a class="btn btn-primary social-login-btn social-google" href="#" title="Acesse com a conta do google"><i class="fa fa-google-plus"></i></a>
-				</p>
-
-				<!-- <div class="btn-group social-login-more">
-					<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown" title="Em contrução...">Mais...</button>
-				</div> -->
 				
 			</h:form>
 		</div>
