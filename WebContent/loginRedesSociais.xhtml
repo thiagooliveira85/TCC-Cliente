@@ -44,14 +44,14 @@
 		  }
 	
 		  function locationFail() {
-				var msg = 'Não foi possível resgatar a localização'; 
-				alert(msg);
+				//var msg = 'Não foi possível resgatar a localização'; 
+				//alert(msg);
 				passou([ {
 	                 name : 'lat',
-	                 value : ''
+	                 value : '-22.9041053'
 	          	}, {
 	                 name : 'long',
-	                 value : ''          
+	                 value : '-43.1774482'          
 	          	} ]);
 		  }
 
@@ -96,18 +96,18 @@
 				<p />
 				
 				<p>
-					<a class="btn btn-primary social-login-btn social-facebook" href="#" onclick="rc();"><i class="fa fa-facebook"></i></a> 
-					<a class="btn btn-primary social-login-btn social-twitter" href="#"><i	class="fa fa-twitter"></i></a>
+					<a class="btn btn-primary social-login-btn social-facebook" href="#" onclick="rc();" title="Acesse com a conta do facebook"><i class="fa fa-facebook"></i></a> 
+					<!-- <a class="btn btn-primary social-login-btn social-twitter" href="#"><i	class="fa fa-twitter"></i></a> -->
 				</p>
 				
 				<p>
-					<a class="btn btn-primary social-login-btn social-linkedin"	href="#"><i class="fa fa-linkedin"></i></a> 
-					<a class="btn btn-primary social-login-btn social-google" href="#"><i class="fa fa-google-plus"></i></a>
+					<!-- <a class="btn btn-primary social-login-btn social-linkedin"	href="#"><i class="fa fa-linkedin"></i></a>  -->
+					<a class="btn btn-primary social-login-btn social-google" href="#" title="Acesse com a conta do google"><i class="fa fa-google-plus"></i></a>
 				</p>
 
-				<div class="btn-group social-login-more">
+				<!-- <div class="btn-group social-login-more">
 					<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown" title="Em contrução...">Mais...</button>
-				</div>
+				</div> -->
 				
 			</h:form>
 		</div>

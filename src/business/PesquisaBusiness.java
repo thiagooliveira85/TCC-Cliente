@@ -18,17 +18,10 @@ public class PesquisaBusiness {
 			coord = new GoogleAPI().buscaCoordenadasPorEndereco(valorPesquisa);
 		}else if (tipoPesquisa.equals("estacionamento")){
 			coord = new EstacionamentoDAO().buscaCoordenadasPorEstacionamento(valorPesquisa);
-		}else if (tipoPesquisa.equals("tipoVaga")){
-			List<EstacionamentoBean> lst = new PesquisaDAO().listaEstacionamentosPorTipo(valorPesquisa);
-			
-			// Por enquanto buscando o primeiro da lista. TO DO
-			coord = lst.get(0).getEnderecoBean().getCoordenadas();
 		}
-		
 		return coord;
 	}
 	
-	// ISSO AQUI TÁ UM LIXO... MAS POR ENQUANTO SÓ PRA BRINCAR
 	public String buscaIconePorTipo(String tipoVaga) {
 		
 		if (tipoVaga.equalsIgnoreCase("MOTO")){

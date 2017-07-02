@@ -14,37 +14,19 @@
 <h:body>
 
 	<h:form id="form1" prependId="false">
-		<p:poll interval="30" onsuccess="" listener="#{mb.atualizaInformacoesEmTempoReal}" process="@this" update="geoMap" />
-		<p:growl id="messages" showDetail="true" />
+		<p:poll interval="20" onsuccess="" listener="#{mb.atualizaInformacoesEmTempoReal}" process="@this" update="geoMap" />
+		<p:growl id="messages" showDetail="false" />
 		
-		<!-- <p:toolbar>
-			<f:facet name="left">
-				<h3 style="margin-left: 10%;">
-					<p:link style="text-decoration: none;" href="#{mb.linkLogotipo}">Estacionamento Online</p:link>
-					<p:graphicImage name="img/logotipo.png" style="width:40%; height:40%; margin-top:0; margin-bottom:0; " />
-				</h3>
-			</f:facet>
-			<f:facet name="right">
-				<h:panelGrid columns="2">
-					<p:graphicImage value="#{facebookAPI.profile.profileImageURL}" style="width:60%; height:60%;" />
-					<h5 style="margin-left: 0px;">#{facebookAPI.profile.fullName}</h5>
-				</h:panelGrid>
-			</f:facet>
-		</p:toolbar>
-		 -->
 		 <div align="center">
 		 	 <p:graphicImage name="img/logotipo.png" style="width:8%; height:8%; margin-top:0; margin-bottom:0; " />
 		 </div>
-		 <div align="right">
-		 	 <p:graphicImage value="#{facebookAPI.profile.profileImageURL}" style="width:2%; height:2%;" />
-		 </div>
 		
-		<p:panel style="width:99%; margin-top:1%;">
+		<p:panel style="width:99%; margin-top:0%;">
 			<h:panelGrid columns="2"
 				style="text-align:right; width:100%; margin-top:-0.5%;">
 				<p:row>
 					<p:column>
-						<p:selectOneMenu id="pesq" value="#{mb.tipoPesquisa}" style="margin-right:10px; width:200px; vertical-align: bottom;" required="true">
+						<p:selectOneMenu id="pesquisa" value="#{mb.tipoPesquisa}" style="margin-right:10px; width:200px; vertical-align: bottom;" required="true">
 							<f:selectItem itemLabel="Pesquise por.." 	itemValue="" />
 							<f:selectItem itemLabel="Endereço" 			itemValue="endereco" />
 							<f:selectItem itemLabel="Estacionamento" 	itemValue="estacionamento" />
@@ -57,7 +39,7 @@
 					</p:column>
 					<p:column>
 						<p:commandButton icon="ui-icon-search" title="Pesquisar"
-							action="#{mb.buscaInformacoesMapa}" update="geoMap" />
+							action="#{mb.buscaInformacoesMapa}" update="geoMap,messages"/>
 					</p:column>
 				</p:row>
 			</h:panelGrid>
