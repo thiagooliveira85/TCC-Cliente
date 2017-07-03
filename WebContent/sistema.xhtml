@@ -14,7 +14,7 @@
 <h:body>
 
 	<h:form id="form1" prependId="false">
-		<p:poll interval="20" onsuccess="" listener="#{mb.atualizaInformacoesEmTempoReal}" process="@this" update="geoMap" />
+		<p:poll interval="120" onsuccess="" listener="#{mb.atualizaInformacoesEmTempoReal}" process="@this" update="geoMap" />
 		<p:growl id="messages" showDetail="false" />
 		
 		 <div align="center">
@@ -63,18 +63,27 @@
 						<h:outputText value="#{mb.marker.data.enderecoBean}" style="text-align: center;" />
 					</p:outputPanel>
 
-					<h:panelGrid columns="2" style="margin-top:20px; width:100%;">
+					<h:panelGrid columns="1" style="margin-top:20px; width:100%;">
 						<!-- <p:graphicImage name="img/placa.png" width="50%" height="50%" /> -->
-						<h:panelGrid columns="2">
+						<h:panelGrid columns="1">
 							<ui:repeat value="#{mb.marker.data.tiposPagamentos}" var="tipoPagamento">
 								<p:graphicImage name="#{tipoPagamento.caminhoImagem}" />
 							</ui:repeat>
 						</h:panelGrid>
 						<br />
-						<p:rating value="#{mb.marker.data.avaliacao}" cancel="false" disabled="#{mb.marker.data.avaliou}">
-							<!-- <f:param name="ident" value="#{mb.marker.title}" /> -->
-							<p:ajax event="rate" listener="#{mb.onrate}" update="messages" />
-						</p:rating>
+						<h:panelGrid columns="3">
+							<p:outputLabel value="Avalie:"/>
+							<p:rating value="#{mb.marker.data.avaliacao}" cancel="false" disabled="#{mb.marker.data.avaliou}">
+								<p:ajax event="rate" listener="#{mb.onrate}" update="messages" />
+							</p:rating>
+						</h:panelGrid>
+						
+						<h:panelGrid columns="3">
+							<p:outputLabel value="Avaliação geral:"/>
+							<!-- <p:outputLabel value="#{mb.marker.data.pontuacao}"/> -->
+							<p:rating value="#{mb.marker.data.pontuacao}" cancel="false" disabled="true" />
+						</h:panelGrid>
+						
 					</h:panelGrid>
 
 					<p:panelGrid style="margin-top:20px; width:100%;" rendered="#{not empty mb.marker.data.tiposVaga}">

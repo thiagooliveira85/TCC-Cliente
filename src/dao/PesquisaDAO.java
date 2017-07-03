@@ -93,7 +93,7 @@ public class PesquisaDAO extends DB {
 			listaEstacionamentoBean 		=	new ArrayList<EstacionamentoBean>();
 
 			while(rs.next()) {
-				criaObjEstacionamento(rs, listaEstacionamentoBean);
+				criaObjEstacionamento(conn, rs, listaEstacionamentoBean);
 			}
 			
 		} catch (Exception e) {
@@ -125,7 +125,7 @@ public class PesquisaDAO extends DB {
 			listaEstacionamentoBean 		=	new ArrayList<EstacionamentoBean>();
 
 			while(rs.next()) {
-				criaObjEstacionamento(rs, listaEstacionamentoBean);
+				criaObjEstacionamento(conn, rs, listaEstacionamentoBean);
 			}
 			
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class PesquisaDAO extends DB {
 		return listaEstacionamentoBean;
 	}
 
-	private void criaObjEstacionamento(ResultSet rs, List<EstacionamentoBean> listaEstacionamentoBean) throws SQLException {
+	private void criaObjEstacionamento(Connection conn, ResultSet rs, List<EstacionamentoBean> listaEstacionamentoBean) throws SQLException {
 		
 		EstacionamentoBean estacionamentoBean		=	new EstacionamentoBean();
 		estacionamentoBean.setId(rs.getInt("ID"));
@@ -160,6 +160,14 @@ public class PesquisaDAO extends DB {
 		estacionamentoBean.setTiposPagamentos(new TipoPagamentoDAO().buscaTiposPorEstacionamento(rs.getInt("ID")));
 		
 		estacionamentoBean.setTiposVaga(new VagasDAO().listaInformacoes(rs.getInt("ID")));
+		
+		PreparedStatement pstmt2	=	conn.prepareStatement(" select avaliacao as pontuacao, qtd_avaliacao from estacionamento where id = ? ");
+		pstmt2.setInt(1, estacionamentoBean.getId());
+		ResultSet rs2				=	pstmt2.executeQuery();
+		
+		while(rs2.next()){
+			estacionamentoBean.setPontuacao(rs2.getInt("pontuacao"), rs2.getInt("qtd_avaliacao"));
+		}
 		
 		listaEstacionamentoBean.add(estacionamentoBean);
 	}

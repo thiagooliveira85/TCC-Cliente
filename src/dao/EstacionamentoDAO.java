@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +59,42 @@ public class EstacionamentoDAO extends DB {
 			listaEstacionamentoBean 		=	new ArrayList<EstacionamentoBean>();
 
 			while(rs.next()) {
-				criaObjEstacionamento(rs, listaEstacionamentoBean);
+				EstacionamentoBean estacionamentoBean		=	new EstacionamentoBean();
+				estacionamentoBean.setId(rs.getInt("ID"));
+				estacionamentoBean.setNomeFantasia(rs.getString("NOME_FANTASIA"));
+				
+				StatusBean statusBean = new StatusBean();
+				statusBean.setId(rs.getInt("ID_STATUS"));
+				statusBean.setNome(rs.getString("STATUS"));
+				estacionamentoBean.setStatusBean(statusBean);
+				
+				
+				EnderecoBean end = new EnderecoBean();
+				end.setTipoLogradouroBean(new TipoLogradouroBean(rs.getInt("ID_TIPO_LOGR"), rs.getString("TIPO_LOGR")));
+				end.setNomeLogradouro(rs.getString("NOME_LOGRADOURO"));
+				end.setNumero(rs.getInt("NUMERO"));
+				end.setBairroBean(new BairroBean(rs.getInt("ID_BAIRRO"), rs.getString("BAIRRO")));
+				end.setCidadeBean(new CidadeBean(rs.getInt("ID_CIDADE"), rs.getString("CIDADE")));
+				end.setCoordenadas(new Coordenadas(rs.getString("LATITUDE"), rs.getString("LONGITUDE")));
+				estacionamentoBean.setEnderecoBean(end);
+				
+				estacionamentoBean.setTiposPagamentos(new TipoPagamentoDAO().buscaTiposPorEstacionamento(rs.getInt("ID")));
+				estacionamentoBean.setTiposVaga(new VagasDAO().listaInformacoes(rs.getInt("ID")));
+				
+				
+				PreparedStatement pstmt2	=	conn.prepareStatement("select avaliacao as pontuacao, qtd_avaliacao from estacionamento where id = ?");
+				pstmt2.setInt(1, estacionamentoBean.getId());
+				ResultSet rs2				=	pstmt2.executeQuery();
+				
+				while(rs2.next()){
+					estacionamentoBean.setPontuacao(rs2.getInt("pontuacao"), rs2.getInt("qtd_avaliacao"));
+				}
+				
+				listaEstacionamentoBean.add(estacionamentoBean);
 			}
+			
+			
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,7 +142,7 @@ public class EstacionamentoDAO extends DB {
 		try {
 			conn = getMyqslConnection();
 			
-			pstmt =	conn.prepareStatement(" update estacionamento set avaliacao = (avaliacao + ?) where id = ? ");	
+			pstmt =	conn.prepareStatement(" update estacionamento set avaliacao = (avaliacao + ?), qtd_avaliacao = (qtd_avaliacao + 1) where id = ? ");	
 			pstmt.setInt(1, estac.getAvaliacao());
 			pstmt.setInt(2, estac.getId());
 			if(pstmt.executeUpdate() > 0)
@@ -123,30 +156,4 @@ public class EstacionamentoDAO extends DB {
 		return false;
 	}
 	
-	private void criaObjEstacionamento(ResultSet rs, List<EstacionamentoBean> listaEstacionamentoBean) throws SQLException {
-		EstacionamentoBean estacionamentoBean		=	new EstacionamentoBean();
-		estacionamentoBean.setId(rs.getInt("ID"));
-		estacionamentoBean.setNomeFantasia(rs.getString("NOME_FANTASIA"));
-		
-		StatusBean statusBean = new StatusBean();
-		statusBean.setId(rs.getInt("ID_STATUS"));
-		statusBean.setNome(rs.getString("STATUS"));
-		estacionamentoBean.setStatusBean(statusBean);
-		
-		
-		EnderecoBean end = new EnderecoBean();
-		end.setTipoLogradouroBean(new TipoLogradouroBean(rs.getInt("ID_TIPO_LOGR"), rs.getString("TIPO_LOGR")));
-		end.setNomeLogradouro(rs.getString("NOME_LOGRADOURO"));
-		end.setNumero(rs.getInt("NUMERO"));
-		end.setBairroBean(new BairroBean(rs.getInt("ID_BAIRRO"), rs.getString("BAIRRO")));
-		end.setCidadeBean(new CidadeBean(rs.getInt("ID_CIDADE"), rs.getString("CIDADE")));
-		end.setCoordenadas(new Coordenadas(rs.getString("LATITUDE"), rs.getString("LONGITUDE")));
-		estacionamentoBean.setEnderecoBean(end);
-		
-		estacionamentoBean.setTiposPagamentos(new TipoPagamentoDAO().buscaTiposPorEstacionamento(rs.getInt("ID")));
-		estacionamentoBean.setTiposVaga(new VagasDAO().listaInformacoes(rs.getInt("ID")));
-		
-		listaEstacionamentoBean.add(estacionamentoBean);
-	}
-
 }

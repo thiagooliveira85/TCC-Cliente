@@ -25,6 +25,8 @@ public class EstacionamentoBean implements Serializable {
 	
 	private boolean avaliou;
 	
+	private Integer pontuacao;
+	
 	public int getQuantidadeFuncionarios() {
 		return quantidadeFuncionarios;
 	}
@@ -107,5 +109,18 @@ public class EstacionamentoBean implements Serializable {
 	}
 	public void setTiposVaga(List<TipoVaga> tiposVaga) {
 		this.tiposVaga = tiposVaga;
+	}
+	public Integer getPontuacao() {
+		return pontuacao;
+	}
+	
+	/**
+	 * Seta a média de avaliações com as quantidades
+	 * @param pontuacao
+	 * @param qtdAvaliacao
+	 */
+	public void setPontuacao(Integer pontuacao, Integer qtdAvaliacao) {
+		if (qtdAvaliacao > 0)
+			this.pontuacao = pontuacao / qtdAvaliacao;
 	}
 }
